@@ -33,7 +33,20 @@ data = pd.read_csv('score_updated.csv')
 X = data['Hours'].values.reshape(-1, 1)
 y = data['Scores'].values
 
-"""**MODELOS UTILIZADOS Y TECNICAS**. Los modelos utilizados para entrenar, testear y validar es la **regresion lineal**, se utiliza como el modelo base para ajustar la linea recta de los datos. Se utiliza LinearRegression() de scikit-learn.                                              Se utiliza **Regresion Polinomica**, con el fin de ajustar un polinomio en especifico a los datos en lugar de usar la linea recta del LinearRegression, transformamos las caracteristicas originzales en caracteristicas polinomicas con la funcion de 'PolynomialFeatures()' de scikit-learn. Al realizar esta funcion permite que el modelo tome relaciones no lineales entre las variables independientes y la variable dependiente.                                               Utilizamos **MSE (Mean Squared Error)** para la evaluacion de los modelos, ya que mide la diferencia cuadrada promedio de las predicciones y los valores reales. Se calcula para el entrenamiento y para la validacion y prueba.                                                    Y por ultimo la tecnica que se utilizo fue la **separacion de los datos en conjunto de train, validation y test**, el train es para entrenar el modelo, validation es para ajustar hiperparametros y evitar el overfitting y el test para evaluar el rendimiento final del modelo en datos no previstos.
+"""**MODELOS UTILIZADOS Y TECNICAS**. Los modelos utilizados para entrenar, testear y
+validar es la **regresion lineal**, se utiliza como el modelo base para ajustar la linea
+recta de los datos. Se utiliza LinearRegression() de scikit-learn.
+Se utiliza **Regresion Polinomica**, con el fin de ajustar un polinomio en especifico a
+los datos en lugar de usar la linea recta del LinearRegression, transformamos las caracteristicas
+originzales en caracteristicas polinomicas con la funcion de 'PolynomialFeatures()' de scikit-learn.
+Al realizar esta funcion permite que el modelo tome relaciones no lineales entre las variables
+independientes y la variable dependiente.
+Utilizamos **MSE (Mean Squared Error)** para la evaluacion de los modelos, ya que mide la
+diferencia cuadrada promedio de las predicciones y los valores reales. Se calcula para
+el entrenamiento y para la validacion y prueba.
+Y por ultimo la tecnica que se utilizo fue la **separacion de los datos en conjunto de train,
+validation y test**, el train es para entrenar el modelo, validation es para ajustar hiperparametros
+y evitar el overfitting y el test para evaluar el rendimiento final del modelo en datos no previstos.
 
 **1. SEPARACION Y EVALUACION DEL MODELO CON UN CONJUNTO DE PRUEBA Y UN CONJUNTO DE VALIDACION. (Train/Test/Validation).**                                          En esta parte del codigo dentro de la funcion train_test_validation_plot() se utilizaron 3 conjuntos. A continuacion voy a explicar cual es la funcion de cada uno.                                                      **TRAIN (Azul).** El entrenamiento principalmente se utiliza para entrenar el modelo de Polynomial Regression. Se identifican como los puntos azules de la grafica y representa los datos en este conjunto. El modelo ajusta una regresion polinomica utilizando la funcion 'LinearReression()' y 'PolynomialFeatures()'. Depues de esto se calcula el MSE para evaluar el rendimiento del modelo de los datos del entrenamiento y mide la diferencia entre las predicciones del modelo y los valores reales.                                                                                                  **Validation (Verde).** La validacion se utiliza para ajustar los hiperparametros del modelo y evitar el overfitting. La validacion ayuda a escoger un grado optimo del polinomio, entre otros parametros. Los puntos verdes en la grafica representan los datos de este conjunto. Se ajusta al modelo de Polynomial Regression con el mismo grado del polinomio que se utiliza para el train. Por ultimo se calcula el MSE para evaluar el comportamiento del modelo en datos que no se visualizaron en el entrenamiento, y con la validacion nos ayuda a saber si el modelo esta siendo efectivo con nuevos datos.                                                                                                        **Test (Naranja).** El conjunto de Test es para evaluar el resultado final del modelo despues de que se haya realizado el Train y Validation. Los puntos Naranjas dentro de las graficas representan los datos de este conjunto. Como funciona el Test es que realiza una evaluacion del rendimiento del modelo con los datos nuevos sin antesa ver visto los datos durante el entrenamiento y la validacion. Al mismo tiempo, se ajusta al modelo de Polynomial Regression con el mismo grado del polinomio que se utilizo en el Train y Validacion. Y finalmente se calcula el MSE para medir como se comporta el modelo con los datos nuevos completados.                          En Conclusion, los valores que nos dan las graficas con el train, test y validation podemos observar que el MSE no es muy bajo (overfitting) ni muy alto (underfitting), esta equilibrado (fitt)
 """
@@ -128,13 +141,38 @@ plt.grid(True)
 
 plt.show()
 
-"""**2. Diagnóstico y explicación el grado de bias o sesgo: bajo medio alto** El Bias (Sesgo) de esta grafica para tener un buen equilibrio entre sesgo y varianza es entre 6-10, debido a que es el grado polinomial que minimiza el error de validacion mejor, lo que indica un buen equilibrio entre sesgo y varianza para un modelo optimo. A continuacion voy a dar una explicacion de como llegue a esta conclusion. Como podemos ver, en base a la escala de 1-50 grados polinomiales, de 1 a 3 el Sesgo tiende a ser alto. Y el modelo no se ajusta adecuadamente a la relacion subyacente. Los grados polinomiales intermedios es de 4-10, el sesgo disminuye a medida que aumenta el grado polinomial. Y es donde el modelo se ajusta mejor a los datos y se ve una gran disminucion del Sesgo, del 11 al 20 grados polinomiales el sesgo se vuelve muy bajo. Y el modelo se ajusta casi perfectamente a los datos de entrenamiento. Y mas de 20 grados polinomiales el Sesgo es demasiado bajo y el modelo se adapta perfectamente a los datos del entrenamiento. Pero donde podemos ver un mejor equilibrio es entre 6-10 grados polinomiales donde el sesgo es intermedio y hay un mejor equilibrio entre la varianza y el sesgo.
+"""**2. Diagnóstico y explicación el grado de bias o sesgo: bajo medio alto** El Bias (Sesgo)
+de esta grafica para tener un buen equilibrio entre sesgo y varianza es entre 6-10, debido a
+que es el grado polinomial que minimiza el error de validacion mejor, lo que indica un buen
+equilibrio entre sesgo y varianza para un modelo optimo. A continuacion voy a dar una explicacion
+de como llegue a esta conclusion. Como podemos ver, en base a la escala de 1-50 grados polinomiales,
+de 1 a 3 el Sesgo tiende a ser alto. Y el modelo no se ajusta adecuadamente a la relacion subyacente.
+Los grados polinomiales intermedios es de 4-10, el sesgo disminuye a medida que aumenta el grado polinomial.
+Y es donde el modelo se ajusta mejor a los datos y se ve una gran disminucion del Sesgo, del 11 al 20 grados
+polinomiales el sesgo se vuelve muy bajo. Y el modelo se ajusta casi perfectamente a los datos de entrenamiento.
+Y mas de 20 grados polinomiales el Sesgo es demasiado bajo y el modelo se adapta perfectamente a los datos del
+entrenamiento. Pero donde podemos ver un mejor equilibrio es entre 6-10 grados polinomiales donde el sesgo es
+intermedio y hay un mejor equilibrio entre la varianza y el sesgo.
 
 ---
 
-**3. Diagnóstico y explicación el grado de varianza: bajo medio alto** La varianza identificada es medio, debido a que la mejor identificacion para el equilibrio de los grados polinomiales es de 6-10, que es donde la varianza aumenta ligeramente en comparacion con los grados bajos. El modelo es mas flexible y comienza a capturar mejor los patrones de los datos. A continuacion voy a explicar como llegue a esta conclusion. Los grados polinomiales bajos de 1-3, se puede observar que la varianza es muy baja, el modelo es simple y genera predicciones consistentes en diferentes conjuntos de datos. En los grados polinomiales de 4-10 la varianza crea en el modelo que sea mas flexible y captura mejor los patrones de los datos. Los grados polinomiales de 11-20 la varianza aumenta significativamente, el modelo se vuelve muy sensible a las fluctuaciones en los datos de entrenamiento, lo que significa que aumenta el error de datos de validacion y prueba y se observa un overfitting. Los grados mayores de 20 significa que la varianza aumento demasiado alto. El modelo es demasiado sensible y las variaciones en los datos de entrenamiento muestra un alto error en datos de validacion y pruebas y se observa un overfitting como se puede ver en la grafica.
+**3. Diagnóstico y explicación el grado de varianza: bajo medio alto** La varianza identificada es medio,
+debido a que la mejor identificacion para el equilibrio de los grados polinomiales es de 6-10, que es donde
+la varianza aumenta ligeramente en comparacion con los grados bajos. El modelo es mas flexible y comienza
+a capturar mejor los patrones de los datos. A continuacion voy a explicar como llegue a esta conclusion.
+Los grados polinomiales bajos de 1-3, se puede observar que la varianza es muy baja, el modelo es simple
+y genera predicciones consistentes en diferentes conjuntos de datos. En los grados polinomiales de 4-10
+la varianza crea en el modelo que sea mas flexible y captura mejor los patrones de los datos. Los grados
+polinomiales de 11-20 la varianza aumenta significativamente, el modelo se vuelve muy sensible a las
+fluctuaciones en los datos de entrenamiento, lo que significa que aumenta el error de datos de validacion
+y prueba y se observa un overfitting. Los grados mayores de 20 significa que la varianza aumento demasiado alto.
+El modelo es demasiado sensible y las variaciones en los datos de entrenamiento muestra un alto error en datos
+de validacion y pruebas y se observa un overfitting como se puede ver en la grafica.
 
-**4. Diagnóstico y explicación el nivel de ajuste del modelo: underfitt fitt overfitt** El modelo se puede identificar como fitt, ya que no es muy alto el sesgo y no es muy bajo la varianza para que se considere underfitt, tampoco es muy bajo el sesgo ni muy alto la varianza para que se considere overfitt, asi que hay un equilibrio entre el sesgo y la varianza para que sea correctamente identificado como fitt.
+**4. Diagnóstico y explicación el nivel de ajuste del modelo: underfitt fitt overfitt** El modelo se puede
+identificar como fitt, ya que no es muy alto el sesgo y no es muy bajo la varianza para que se considere
+underfitt, tampoco es muy bajo el sesgo ni muy alto la varianza para que se considere overfitt, asi que
+hay un equilibrio entre el sesgo y la varianza para que sea correctamente identificado como fitt.
 
 ## Estructura 2
 
@@ -193,11 +231,21 @@ plt.grid(True)
 
 plt.show()
 
-"""**2.Diagnóstico y explicación el grado de bias o sesgo: bajo medio alto** Como podemos observar en esta grafica con diferente lista de grados, podemos ver que la unica diferencia es al momento de como los grados polinomiales del 34-50 bajo el sesgo muy drasticamente. Pero podemos seguir tomando en cuenta que el equilibrio esta entre el 6-15. Asi que el Sesgo se toma como medio.
-**3.Diagnóstico y explicación el grado de varianza: bajo medio alto** La varianza igual subio muy drasticamente del grado polinomial 34-50, pero podemos identificar el equilibrio correcto igual, del 6-15 donde la varianza es media y el modelo es preciso con datos correctos reales.
-**4.Diagnóstico y explicación el nivel de ajuste del modelo: underfitt fitt overfitt** El modelo al igual que el pasado se puede identificar como fitt, ya que no es underfitt por tener varianza alta, y ni es underfitt porque la varianza no es baja.
+"""**2.Diagnóstico y explicación el grado de bias o sesgo: bajo medio alto** Como podemos
+observar en esta grafica con diferente lista de grados, podemos ver que la unica diferencia
+es al momento de como los grados polinomiales del 34-50 bajo el sesgo muy drasticamente.
+Pero podemos seguir tomando en cuenta que el equilibrio esta entre el 6-15. Asi que el Sesgo se toma como medio.
 
-**4. Basándote en lo encontrado en tu análisis utiliza técnicas de regularización o ajuste de parámetros para mejorar el desempeño de tu modelo y documenta en tu reporte cómo mejoró este.**
+**3.Diagnóstico y explicación el grado de varianza: bajo medio alto** La varianza igual subio muy
+drasticamente del grado polinomial 34-50, pero podemos identificar el equilibrio correcto igual,
+del 6-15 donde la varianza es media y el modelo es preciso con datos correctos reales.
+
+**4.Diagnóstico y explicación el nivel de ajuste del modelo: underfitt fitt overfitt** El modelo al
+igual que el pasado se puede identificar como fitt, ya que no es underfitt por tener varianza alta,
+y ni es underfitt porque la varianza no es baja.
+
+**4. Basándote en lo encontrado en tu análisis utiliza técnicas de regularización o ajuste de parámetros
+para mejorar el desempeño de tu modelo y documenta en tu reporte cómo mejoró este.**
 """
 
 import numpy as np
@@ -295,4 +343,15 @@ plt.grid(True)
 
 plt.show()
 
-"""Lo que podemos observar es que sin regularizacion mientras va aumentando el grado polinomial, el modelo se estuvo volviendo mas complejo y es overfitting, y se ve que el MSE de training es mas bajo, pero el de validation y test es mas alto. Y al momento de aplicar regularizacion, la diferencia que hubo es que ayudo a controlar el overfitting, mientras iba subiendo el grado polinomico, el MSE de training sigue disminuyendo, pero el MSE de validacion y prueba se matuvieron bajo y estable a comparacion de cuando no usamos regularizacion, tambien con regularizacion el grado polinomial de entre 10-20 hay un buen equilibrio entre el sesgo y la varianza, ya que Ridge nos ayuda a que el modelo sea mas correcto en frente del overfitting, lo que hace que tenga un mejor rendimiento en el conjunto de testing. Algo importante que hay que tomar en cuenta es tener un valor para alpha, ya que segun los objetivos de cada quien, puedes adaptar el valor alpha para tener un mejor equilibrio entre sesgo y varianza. Ya que un valor demasiado alto de alpha puede pasar un underfitt, y un valor muy bajo puede pasar un overfitt"""
+"""Lo que podemos observar es que sin regularizacion mientras va aumentando el grado polinomial,
+el modelo se estuvo volviendo mas complejo y es overfitting, y se ve que el MSE de training es mas
+bajo, pero el de validation y test es mas alto. Y al momento de aplicar regularizacion, la diferencia
+que hubo es que ayudo a controlar el overfitting, mientras iba subiendo el grado polinomico, el MSE
+de training sigue disminuyendo, pero el MSE de validacion y prueba se matuvieron bajo y estable a
+comparacion de cuando no usamos regularizacion, tambien con regularizacion el grado polinomial de
+entre 10-20 hay un buen equilibrio entre el sesgo y la varianza, ya que Ridge nos ayuda a que el
+modelo sea mas correcto en frente del overfitting, lo que hace que tenga un mejor rendimiento en
+el conjunto de testing. Algo importante que hay que tomar en cuenta es tener un valor para alpha,
+ya que segun los objetivos de cada quien, puedes adaptar el valor alpha para tener un mejor equilibrio
+entre sesgo y varianza. Ya que un valor demasiado alto de alpha puede pasar un underfitt, y un valor
+muy bajo puede pasar un overfitt"""
